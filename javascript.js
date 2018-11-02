@@ -1,3 +1,5 @@
+var PAGE_DATA = {};
+
 let main = document.querySelector("main");
 
 function renderPage(main, id) {
@@ -5,7 +7,7 @@ function renderPage(main, id) {
     main.innerHTML = page;
 }
 
-function renderHomePage(main) {
+function renderHomePage(main, PAGE_DATA) {
     renderPage(main, "homePage");
 
     let signUpBtn = document.querySelector("#signUpBtn");
@@ -23,7 +25,9 @@ function renderHomePage(main) {
         renderPage(main, "loginPage");
         document.querySelector("button").addEventListener("click", event => {
             event.preventDefault();
-            login();
+            login(PAGE_DATA);
+            console.log(PAGE_DATA);
+            getUsers(PAGE_DATA.token);
         });
     });
 }
@@ -35,7 +39,7 @@ function signUp() {
     fetch(`https://bcca-pingpong.herokuapp.com/api/register/`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json.charset=ulf-8"
+            "Content-Type": "application/json; charset=ulf-8"
         },
         body: JSON.stringify({
             username: username,
@@ -53,21 +57,22 @@ function signUp() {
         });
 }
 
-function login() {
+function login(data) {
     let username = document.querySelector("#username").value;
     let password = document.querySelector("#password").value;
     fetch(`https://bcca-pingpong.herokuapp.com/api/login/`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json.charset=ulf-8"
+            "Content-Type": "application/json; charset=ulf-8"
         },
         body: JSON.stringify({
             username: username,
             password: password
         })
     })
-        .then(response => {
-            console.log(response);
+        .then(response => response.json())
+        .then(obj => {
+            data.token = obj.token;
         })
         .catch(e => {
             console.log(e);
@@ -75,4 +80,20 @@ function login() {
         });
 }
 
-renderHomePage(main);
+function getUsers(token) {
+    console.log(token);
+    fetch("https://bcca-pingpong.herokuapp.com/api/users/", {
+        method: "GET",
+        Authorization: `Token ${token}`
+    })
+        .then(response => response.json())
+        .then(obj => {
+            console.log(obj);
+        })
+        .catch(e => {
+            console.log(e);
+            console.log(e.message);
+        });
+}
+
+renderHomePage(main, PAGE_DATA);
