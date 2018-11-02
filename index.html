@@ -4,19 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="text/html; charset=utf-8">
     <link rel="stylesheet" href="bootstrap/bootstrap.css">
     <link rel="stylesheet" href="style.css">
     <title>Ping Pong</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <h2 class="mx-auto">Ping Pong</h2>
-    </nav>
-    <main>
+    <div class="p-0 ">
+        <nav class="navbar col-sm-12 col-lg-10 container">
+            <h2 class="mx-auto">Ping Pong Score Keeper</h2>
+        </nav>
+        <main class="col-sm-12 col-lg-10 border container">
 
-    </main>
+        </main>
+    </div>
 
 
     <script id="homePage" type="text/x-handlebars-template"> 
@@ -25,8 +27,60 @@
                 <p>Description</p>
             </div>
             <div class="col-sm-12">
-                <button class="home-button mx-auto d-block">Sign Up</button>
-                <button class="home-button mx-auto d-block">Login</button>
+                <button id="signUpBtn" class="home-button mx-auto d-block">Sign Up</button>
+                <button id="loginBtn" class="home-button mx-auto d-block">Login</button>
+            </div>
+        </div>
+    </script>
+
+    <script id="registerPage" type="text/x-handlebars-template">
+        <div class="container">
+            <div>
+                <form method="POST">
+                    <fieldset id="signUpField" class="col-sm-6 col-lg-6 mx-auto p-0">
+                        <legend class="mx-auto text-center">Sign Up</legend>
+                        <div class="text-center">
+                            <label class="d-block">Username<br />
+                            <input id="username" type="text"></label>
+                            <label class="d-block">Password<br />
+                            <input id="password" type="password"></label>
+                            <label class="d-block">Password Repeat<br />
+                            <input id="passwordRepeat" type="password"></label>
+                            <button class="submitBtn" type="submit">Submit</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+    </script>
+
+    <script id="loginPage" type="text/x-handlebars-template">
+        <div class="container">
+            <div>
+                <form method="POST" >
+                    <fieldset id="signUpField" class="col-sm-6 col-lg-6 mx-auto p-0">
+                        <legend class="mx-auto text-center">Login</legend>
+                        <div class="text-center">
+                            <label class="d-block">Username<br />
+                            <input id="username" type="text"></label>
+                            <label class="d-block">Password<br />
+                            <input id="password" type="password"></label>
+                            <button class="submitBtn" type="submit">Submit</button>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </script>
+
+    <script id="userHomePage" type="text/x-handlebars-template">
+        <div>
+            <div>
+                <h1>Welcome back {{user}}</h1>
+            </div>
+            <div id="gameArea">
+                <button>Start New Game</button>
             </div>
         </div>
     </script>
