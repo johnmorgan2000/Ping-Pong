@@ -17,7 +17,7 @@ function renderHomePage(main, PAGE_DATA) {
         renderPage(main, "registerPage");
         document.querySelector("button").addEventListener("click", event => {
             event.preventDefault();
-            signUp();
+            signUp(PAGE_DATA);
         });
     });
 
@@ -26,13 +26,11 @@ function renderHomePage(main, PAGE_DATA) {
         document.querySelector("button").addEventListener("click", event => {
             event.preventDefault();
             login(PAGE_DATA);
-            console.log(PAGE_DATA);
-            getUsers(PAGE_DATA.token);
         });
     });
 }
 
-function signUp() {
+function signUp(data) {
     let username = document.querySelector("#username").value;
     let password = document.querySelector("#password").value;
     let passwordRepeat = document.querySelector("#passwordRepeat").value;
@@ -49,7 +47,9 @@ function signUp() {
     })
         .then(response => response.json())
         .then(obj => {
-            console.log(obj);
+            data.token = obj.token;
+            data.username = username;
+            renderUserHome(main, PAGE_DATA);
         })
         .catch(e => {
             console.log(e);
@@ -73,11 +73,14 @@ function login(data) {
         .then(response => response.json())
         .then(obj => {
             data.token = obj.token;
+            data.username = username;
+            renderUserHome(main, PAGE_DATA);
         })
         .catch(e => {
             console.log(e);
             console.log(e.message);
         });
+    console.log(data.username);
 }
 
 function getUsers(token) {
@@ -94,6 +97,17 @@ function getUsers(token) {
             console.log(e);
             console.log(e.message);
         });
+}
+
+function renderUserHome(main, PAGE_DATA) {
+    console.log(PAGE_DATA.username);
+    var source = document.getElementById("userHomePage").innerHTML;
+    var template = Handlebars.compile(source);
+    var html = template({
+        user: PAGE_DATA.username
+    });
+    main.innerHTML = "";
+    main.insertAdjacentHTML("beforeend", html);
 }
 
 renderHomePage(main, PAGE_DATA);
