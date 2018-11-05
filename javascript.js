@@ -85,7 +85,7 @@ function login(data) {
 function getUsers(token, PAGE_DATA) {
     return fetch("https://bcca-pingpong.herokuapp.com/api/users/", {
         method: "GET",
-        Authorization: `Token ${token}`
+        headers: { Authorization: `Token ${token}` }
     })
         .then(response => response.json())
         .then(obj => {
@@ -112,6 +112,7 @@ function renderUserHome(main, PAGE_DATA) {
     var template = Handlebars.compile(source);
 
     getUsers(PAGE_DATA.token, PAGE_DATA).then(() => {
+        console.log(PAGE_DATA.users);
         var html = template({
             user: PAGE_DATA.username
         });
@@ -129,7 +130,9 @@ function renderUserHome(main, PAGE_DATA) {
 function renderNewGame(PAGE_DATA) {
     fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {
         method: "Post",
-        Authorization: `Token ${PAGE_DATA.token}`,
+        headers: {
+            Authorization: `Token ${PAGE_DATA.token}`
+        },
         body: JSON.stringify({
             player_1: PAGE_DATA.player_1,
             player_2: PAGE_DATA.player_2
