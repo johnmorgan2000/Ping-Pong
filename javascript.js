@@ -119,18 +119,11 @@ function renderUserHome(main, PAGE_DATA) {
         displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
 
         document.querySelector("#newGameBtn").addEventListener("click", () => {
-            // inputPlayers(PAGE_DATA);
             // renderNewGame(PAGE_DATA);
         });
         // displayUsers(PAGE_DATA);
     });
 }
-
-// function inputPlayers(main, PAGE_DATA) {
-//     main.innerHTML = document.querySelector("#userInputs").innerHTML;
-//     let usersDiv = document.querySelector("#usersContainer");
-//     displayUsers(PAGE_DATA, usersDiv);
-// }
 
 function renderNewGame(PAGE_DATA) {
     fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {
