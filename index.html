@@ -79,12 +79,19 @@
             <div id="gameArea">
                 <h1>{{user}}</h1>
 
-                <div id="selectPlayers" class="row"></div>
                 <div id="inputsContainer">
-                    <input type="text" id="player_1">
-                    <input type="text" id="player_2">
-                    
+                    <label>
+                        Player 1
+                        <input type="text" id="player_1">
+                    </label>
+                    <label>
+                        Player 2
+                        <input type="text" id="player_2">
+                    </label>
                 </div>
+                
+                <div id="selectPlayers" class="row"></div>
+                
                 <button id="newGameBtn">Start New Game</button>
             </div>
         </div>
@@ -103,15 +110,15 @@
         <div>
             <div id="player1">
                 <p>{{player1}}</p>
-                <button>UP</button>
-                <p>0</p>
-                <button>DOWN</button>
+                <button onclick="increaseScore('#player_1Score')" class="up">UP</button>
+                <p id="player_1Score">0</p>
+                <button onclick="decreaseScore('#player_1Score')"class="down">DOWN</button>
             </div>
             <div id="player2">
                 <p>{{player2}}</p>
-                <button>UP</button>
-                <p>0</p>
-                <button>DOWN</button>
+                <button onclick="increaseScore('#player_2Score')" class="up">UP</button>
+                <p id="player_2Score">0</p>
+                <button onclick="decreaseScore('#player_2Score')" class="down">DOWN</button>
             </div>
         </div>
     

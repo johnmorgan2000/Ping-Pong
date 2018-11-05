@@ -119,9 +119,10 @@ function renderUserHome(main, PAGE_DATA) {
         displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
 
         document.querySelector("#newGameBtn").addEventListener("click", () => {
-            // renderNewGame(PAGE_DATA);
+            PAGE_DATA.player_1 = document.querySelector("#player_1").value;
+            PAGE_DATA.player_2 = document.querySelector("#player_2").value;
+            renderNewGame(PAGE_DATA);
         });
-        // displayUsers(PAGE_DATA);
     });
 }
 
@@ -144,9 +145,24 @@ function renderNewGame(PAGE_DATA) {
                 player2: PAGE_DATA.player_2
             });
             let block = document.querySelector("#gameArea");
-            block.innerHTML = "";
-            block.insertAdjacentHTML("beforeend", html);
+            block.innerHTML = html;
         });
+}
+
+function decreaseScore(playerScoreDiv) {
+    let div = document.querySelector(playerScoreDiv);
+    let score = Number(div.innerHTML);
+    if (score != 0) {
+        score -= 1;
+        div.innerHTML = score;
+    }
+}
+
+function increaseScore(playerScoreDiv) {
+    let div = document.querySelector(playerScoreDiv);
+    let score = Number(div.innerHTML);
+    score += 1;
+    div.innerHTML = score;
 }
 
 renderHomePage(main, PAGE_DATA);
