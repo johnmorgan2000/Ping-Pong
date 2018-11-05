@@ -97,8 +97,7 @@ function getUsers(token, PAGE_DATA) {
         });
 }
 
-function displayUsers(PAGE_DATA) {
-    let div = document.querySelector("#players");
+function displayUsers(PAGE_DATA, div) {
     for (o of PAGE_DATA.users) {
         let span = document.createElement("div");
         let text = document.createTextNode(o.username);
@@ -113,26 +112,25 @@ function renderUserHome(main, PAGE_DATA) {
     var template = Handlebars.compile(source);
 
     getUsers(PAGE_DATA.token, PAGE_DATA).then(() => {
-        console.log(PAGE_DATA.users);
-
         var html = template({
-            user: PAGE_DATA.username,
-            players: PAGE_DATA.users
+            user: PAGE_DATA.username
         });
-        main.innerHTML = "";
-        main.insertAdjacentHTML("beforeend", html);
+        main.innerHTML = html;
+        displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
 
         document.querySelector("#newGameBtn").addEventListener("click", () => {
-            renderNewGame(PAGE_DATA);
+            // inputPlayers(PAGE_DATA);
+            // renderNewGame(PAGE_DATA);
         });
-        displayUsers(PAGE_DATA);
+        // displayUsers(PAGE_DATA);
     });
 }
 
-function inputPlayers(PAGE_DATA) {
-    PAGE_DATA.users = getUsers(PAGE_DATA.token);
-    console.log(PAGE_DATA.users);
-}
+// function inputPlayers(main, PAGE_DATA) {
+//     main.innerHTML = document.querySelector("#userInputs").innerHTML;
+//     let usersDiv = document.querySelector("#usersContainer");
+//     displayUsers(PAGE_DATA, usersDiv);
+// }
 
 function renderNewGame(PAGE_DATA) {
     fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {

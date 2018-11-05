@@ -59,7 +59,7 @@
         <div class="container">
             <div>
                 <form method="POST" >
-                    <fieldset id="signUpField" class="col-sm-6 col-lg-6 mx-auto p-0">
+                    <fieldset id="loginField" class="col-sm-6 col-lg-6 mx-auto p-0">
                         <legend class="mx-auto text-center">Login</legend>
                         <div class="text-center">
                             <label class="d-block">Username<br />
@@ -77,13 +77,25 @@
     <script id="userHomePage" type="text/x-handlebars-template">
         <div>
             <div id="gameArea">
-                <h1>Welcome back {{user}}</h1>
-                <div id="players" class="row">
+                <h1>{{user}}</h1>
+
+                <div id="selectPlayers" class="row"></div>
+                <div id="inputsContainer">
+                    <input type="text" id="player_1">
+                    <input type="text" id="player_2">
                     
                 </div>
-            
                 <button id="newGameBtn">Start New Game</button>
             </div>
+        </div>
+    </script>
+
+    <script id="usersInputs" type="text/x-handlebars-template">
+        <div>
+            <div id="usersContainer">
+                
+            </div>
+            
         </div>
     </script>
 
