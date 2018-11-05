@@ -1,0 +1,34 @@
+:root {
+    --main-color: rgb(255, 187, 97);
+}
+
+nav {
+    color: white;
+    font-weight: bold;
+    background-color: var(--main-color);
+    box-shadow: 0 3px 3px #c8c8c8;
+}
+
+.home-button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    margin: 8px;
+}
+
+#signUpField {
+    border: 1px solid black;
+}
+
+#signUpField legend {
+    width: 100px;
+}
+
+.submitBtn {
+    border: none;
+    border-radius: 6px;
+    padding: 8px;
+    margin-bottom: 5px;
+}
+
+#players
