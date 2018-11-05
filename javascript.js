@@ -112,30 +112,71 @@ function renderUserHome(main, PAGE_DATA) {
     var template = Handlebars.compile(source);
 
     getUsers(PAGE_DATA.token, PAGE_DATA).then(() => {
-        console.log(PAGE_DATA.users);
         var html = template({
             user: PAGE_DATA.username
         });
         main.innerHTML = html;
         displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
 
+        let input1 = document.querySelector("#player_1");
+        let input2 = document.querySelector("#player_2");
+
+        validatePlayerInput(PAGE_DATA, input1);
+        validatePlayerInput(PAGE_DATA, input2);
+
+        PAGE_DATA.player_1 = {};
+        PAGE_DATA.player_2 = {};
+
         document.querySelector("#newGameBtn").addEventListener("click", () => {
-            PAGE_DATA.player_1 = document.querySelector("#player_1").value;
-            PAGE_DATA.player_2 = document.querySelector("#player_2").value;
+            PAGE_DATA.player_1.name = document.querySelector("#player_1").value;
+            PAGE_DATA.player_2.name = document.querySelector("#player_2").value;
             renderNewGame(PAGE_DATA);
         });
     });
 }
 
+function validatePlayerInput(PAGE_DATA, input) {
+    input.addEventListener("input", () => {
+        if (validPlayer(PAGE_DATA, input.value)) {
+            input.classList.remove("invalid");
+            input.classList.add("valid");
+        } else {
+            input.classList.remove("valid");
+            input.classList.add("invalid");
+        }
+    });
+}
+
+function validPlayer(PAGE_DATA, player) {
+    for (obj of PAGE_DATA.users) {
+        if (player == obj.username) {
+            return true;
+        }
+    }
+}
+
+function getPlayerId(PAGE_DATA, name) {
+    for (user of PAGE_DATA.users) {
+        if (user.username == name) {
+            return user.id;
+        }
+    }
+}
+
 function renderNewGame(PAGE_DATA) {
+    PAGE_DATA.player_1.id = getPlayerId(PAGE_DATA, PAGE_DATA.player_1.name);
+    PAGE_DATA.player_2.id = getPlayerId(PAGE_DATA, PAGE_DATA.player_2.name);
+
+    console.log(PAGE_DATA.player_1.id);
+
     fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {
         method: "Post",
         headers: {
             Authorization: `Token ${PAGE_DATA.token}`
         },
         body: JSON.stringify({
-            player_1: PAGE_DATA.player_1,
-            player_2: PAGE_DATA.player_2
+            player_1: PAGE_DATA.player_1.id,
+            player_2: PAGE_DATA.player_2.id
         })
     })
         .then(response => response.json())
@@ -144,12 +185,36 @@ function renderNewGame(PAGE_DATA) {
             var source = document.getElementById("gameWindow").innerHTML;
             var template = Handlebars.compile(source);
             var html = template({
-                player1: PAGE_DATA.player_1,
-                player2: PAGE_DATA.player_2
+                player1: PAGE_DATA.player_1.name,
+                player2: PAGE_DATA.player_2.name
             });
             let block = document.querySelector("#gameArea");
             block.innerHTML = html;
+
+            PAGE_DATA.points = [];
+            let player_1Btns = document.querySelectorAll("#player1 buttons");
+            let player_2Btns = document.querySelectorAll("#player2 buttons");
+
+            playerScore(PAGE_DATA, player_1Btns, PAGE_DATA.player_1.id);
+
+            playerScore(PAGE_DATA, player_2Btns, PAGE_DATA.player_2.id);
+            console.log(PAGE_DATA.points);
         });
+}
+
+function playerScore(PAGE_DATA, buttons, playerId) {
+    for (const btn of buttons) {
+        btn.addEventListener("click", () => {
+            if (btn.classList.contains("up")) {
+                PAGE_DATA.points.push(playerId);
+            } else if (btn.classList.contains("down")) {
+                let index = PAGE_DATA.points.indexOf(playerId);
+                if (index > -1) {
+                    PAGE_DATA.points.splice(index, 1);
+                }
+            }
+        });
+    }
 }
 
 function decreaseScore(playerScoreDiv) {
