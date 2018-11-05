@@ -80,18 +80,16 @@ function login(data) {
             console.log(e);
             console.log(e.message);
         });
-    console.log(data.username);
 }
 
-function getUsers(token) {
-    console.log(token);
-    fetch("https://bcca-pingpong.herokuapp.com/api/users/", {
+function getUsers(token, PAGE_DATA) {
+    return fetch("https://bcca-pingpong.herokuapp.com/api/users/", {
         method: "GET",
         Authorization: `Token ${token}`
     })
         .then(response => response.json())
         .then(obj => {
-            console.log(obj);
+            return (PAGE_DATA.users = obj);
         })
         .catch(e => {
             console.log(e);
@@ -99,15 +97,65 @@ function getUsers(token) {
         });
 }
 
+function displayUsers(PAGE_DATA) {
+    let div = document.querySelector("#players");
+    for (o of PAGE_DATA.users) {
+        let span = document.createElement("div");
+        let text = document.createTextNode(o.username);
+        span.appendChild(text);
+        span.classList.add("col-4");
+        div.appendChild(span);
+    }
+}
+
 function renderUserHome(main, PAGE_DATA) {
-    console.log(PAGE_DATA.username);
     var source = document.getElementById("userHomePage").innerHTML;
     var template = Handlebars.compile(source);
-    var html = template({
-        user: PAGE_DATA.username
+
+    getUsers(PAGE_DATA.token, PAGE_DATA).then(() => {
+        console.log(PAGE_DATA.users);
+
+        var html = template({
+            user: PAGE_DATA.username,
+            players: PAGE_DATA.users
+        });
+        main.innerHTML = "";
+        main.insertAdjacentHTML("beforeend", html);
+
+        document.querySelector("#newGameBtn").addEventListener("click", () => {
+            renderNewGame(PAGE_DATA);
+        });
+        displayUsers(PAGE_DATA);
     });
-    main.innerHTML = "";
-    main.insertAdjacentHTML("beforeend", html);
+}
+
+function inputPlayers(PAGE_DATA) {
+    PAGE_DATA.users = getUsers(PAGE_DATA.token);
+    console.log(PAGE_DATA.users);
+}
+
+function renderNewGame(PAGE_DATA) {
+    fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {
+        method: "Post",
+        Authorization: `Token ${PAGE_DATA.token}`,
+        body: JSON.stringify({
+            player_1: PAGE_DATA.player_1,
+            player_2: PAGE_DATA.player_2
+        })
+    })
+        .then(response => response.json())
+        .then(obj => {
+            console.log(obj);
+            var source = document.getElementById("gameWindow").innerHTML;
+            var template = Handlebars.compile(source);
+            var html = template({
+                player1: PAGE_DATA.player_1,
+                player2: PAGE_DATA.player_2
+            });
+            let block = document.querySelector("#gameArea");
+            block.innerHTML = "";
+            block.insertAdjacentHTML("beforeend", html);
+        });
 }
 
 renderHomePage(main, PAGE_DATA);
