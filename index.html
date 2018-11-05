@@ -76,13 +76,33 @@
 
     <script id="userHomePage" type="text/x-handlebars-template">
         <div>
-            <div>
-                <h1>Welcome back {{user}}</h1>
-            </div>
             <div id="gameArea">
-                <button>Start New Game</button>
+                <h1>Welcome back {{user}}</h1>
+                <div id="players" class="row">
+                    
+                </div>
+            
+                <button id="newGameBtn">Start New Game</button>
             </div>
         </div>
+    </script>
+
+    <script id="gameWindow" type="text/x-handlebars-template">
+        <div>
+            <div id="player1">
+                <p>{{player1}}</p>
+                <button>UP</button>
+                <p>0</p>
+                <button>DOWN</button>
+            </div>
+            <div id="player2">
+                <p>{{player2}}</p>
+                <button>UP</button>
+                <p>0</p>
+                <button>DOWN</button>
+            </div>
+        </div>
+    
     </script>
 
     <script src="handlebars/handlebar.js"></script>
