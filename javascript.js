@@ -2,11 +2,13 @@ var PAGE_DATA = {};
 
 let main = document.querySelector("main");
 
+// A small function the inserts a simple template
 function renderPage(main, id) {
     let page = document.getElementById(id).innerHTML;
     main.innerHTML = page;
 }
 
+// Inserts the Home Page where the user can click signin or login
 function renderHomePage(main, PAGE_DATA) {
     renderPage(main, "homePage");
 
@@ -30,6 +32,7 @@ function renderHomePage(main, PAGE_DATA) {
     });
 }
 
+// Gets the Token for the user signing up and renders the User Home Page
 function signUp(data) {
     let username = document.querySelector("#username").value;
     let password = document.querySelector("#password").value;
@@ -57,6 +60,7 @@ function signUp(data) {
         });
 }
 
+//Gets the Token for the user login and renders the User Home Page
 function login(data) {
     let username = document.querySelector("#username").value;
     let password = document.querySelector("#password").value;
@@ -82,6 +86,7 @@ function login(data) {
         });
 }
 
+// fetches all the users for the site
 function getUsers(token, PAGE_DATA) {
     return fetch("https://bcca-pingpong.herokuapp.com/api/users/", {
         method: "GET",
@@ -97,6 +102,7 @@ function getUsers(token, PAGE_DATA) {
         });
 }
 
+// Displays all the users onto the page in the form of divs
 function displayUsers(PAGE_DATA, div) {
     for (o of PAGE_DATA.users) {
         let span = document.createElement("div");
@@ -107,6 +113,7 @@ function displayUsers(PAGE_DATA, div) {
     }
 }
 
+// Creates the user home page where you can input players and get them validated then start a new game
 function renderUserHome(main, PAGE_DATA) {
     getUsers(PAGE_DATA.token, PAGE_DATA).then(() => {
         userHomeTemplate(main, PAGE_DATA);
@@ -128,6 +135,7 @@ function renderUserHome(main, PAGE_DATA) {
     });
 }
 
+// Inserts the user home page template
 function userHomeTemplate(main, PAGE_DATA) {
     var source = document.getElementById("userHomePage").innerHTML;
     var template = Handlebars.compile(source);
@@ -138,6 +146,7 @@ function userHomeTemplate(main, PAGE_DATA) {
     displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
 }
 
+// validates the player input if the player is valid
 function validatePlayerInput(PAGE_DATA, input) {
     input.addEventListener("input", () => {
         if (validPlayer(PAGE_DATA, input.value)) {
@@ -150,6 +159,7 @@ function validatePlayerInput(PAGE_DATA, input) {
     });
 }
 
+// Checks if the player is valid
 function validPlayer(PAGE_DATA, player) {
     for (obj of PAGE_DATA.users) {
         if (player == obj.username) {
@@ -158,6 +168,7 @@ function validPlayer(PAGE_DATA, player) {
     }
 }
 
+// returns the id of the name given
 function getPlayerId(PAGE_DATA, name) {
     for (user of PAGE_DATA.users) {
         if (user.username == name) {
@@ -166,6 +177,7 @@ function getPlayerId(PAGE_DATA, name) {
     }
 }
 
+//
 function renderNewGame(PAGE_DATA) {
     PAGE_DATA.player_1.id = getPlayerId(PAGE_DATA, PAGE_DATA.player_1.name);
     PAGE_DATA.player_2.id = getPlayerId(PAGE_DATA, PAGE_DATA.player_2.name);
@@ -185,14 +197,7 @@ function renderNewGame(PAGE_DATA) {
         .then(response => response.json())
         .then(obj => {
             console.log(obj);
-            var source = document.getElementById("gameWindow").innerHTML;
-            var template = Handlebars.compile(source);
-            var html = template({
-                player1: PAGE_DATA.player_1.name,
-                player2: PAGE_DATA.player_2.name
-            });
-            let block = document.querySelector("#gameArea");
-            block.innerHTML = html;
+            newGameTemplate();
 
             PAGE_DATA.points = [];
             let player_1Btns = document.querySelectorAll("#player1 buttons");
@@ -205,6 +210,19 @@ function renderNewGame(PAGE_DATA) {
         });
 }
 
+// inserts the newGame template
+function newGameTemplate() {
+    var source = document.getElementById("gameWindow").innerHTML;
+    var template = Handlebars.compile(source);
+    var html = template({
+        player1: PAGE_DATA.player_1.name,
+        player2: PAGE_DATA.player_2.name
+    });
+    let block = document.querySelector("#gameArea");
+    block.innerHTML = html;
+}
+
+// adds or subtracts the player id to the points array
 function playerScore(PAGE_DATA, buttons, playerId) {
     for (const btn of buttons) {
         btn.addEventListener("click", () => {
@@ -220,6 +238,7 @@ function playerScore(PAGE_DATA, buttons, playerId) {
     }
 }
 
+// Changes the displayed number
 function decreaseScore(playerScoreDiv) {
     let div = document.querySelector(playerScoreDiv);
     let score = Number(div.innerHTML);
@@ -229,6 +248,7 @@ function decreaseScore(playerScoreDiv) {
     }
 }
 
+//changes the displayed number
 function increaseScore(playerScoreDiv) {
     let div = document.querySelector(playerScoreDiv);
     let score = Number(div.innerHTML);
