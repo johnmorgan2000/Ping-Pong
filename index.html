@@ -107,19 +107,20 @@
     </script>
 
     <script id="gameWindow" type="text/x-handlebars-template">
-        <div>
+        <div id="playerScores">
             <div id="player1">
                 <p>{{player1}}</p>
-                <button onclick="increaseScore('#player_1Score')" class="up">UP</button>
+                <button onclick="increaseScore('#player_1Score')" class="up player_1Btn">UP</button>
                 <p id="player_1Score">0</p>
-                <button onclick="decreaseScore('#player_1Score')"class="down">DOWN</button>
+                <button onclick="decreaseScore('#player_1Score')"class="down player_1Btn">DOWN</button>
             </div>
             <div id="player2">
                 <p>{{player2}}</p>
-                <button onclick="increaseScore('#player_2Score')" class="up">UP</button>
+                <button onclick="increaseScore('#player_2Score')" class="up player_2Btn">UP</button>
                 <p id="player_2Score">0</p>
-                <button onclick="decreaseScore('#player_2Score')" class="down">DOWN</button>
+                <button onclick="decreaseScore('#player_2Score')" class="down player_2Btn">DOWN</button>
             </div>
+            <button id="scoreGameBtn">Score Game</button>
         </div>
     
     </script>
