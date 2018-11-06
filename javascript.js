@@ -108,15 +108,8 @@ function displayUsers(PAGE_DATA, div) {
 }
 
 function renderUserHome(main, PAGE_DATA) {
-    var source = document.getElementById("userHomePage").innerHTML;
-    var template = Handlebars.compile(source);
-
     getUsers(PAGE_DATA.token, PAGE_DATA).then(() => {
-        var html = template({
-            user: PAGE_DATA.username
-        });
-        main.innerHTML = html;
-        displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
+        userHomeTemplate(main, PAGE_DATA);
 
         let input1 = document.querySelector("#player_1");
         let input2 = document.querySelector("#player_2");
@@ -133,6 +126,16 @@ function renderUserHome(main, PAGE_DATA) {
             renderNewGame(PAGE_DATA);
         });
     });
+}
+
+function userHomeTemplate(main, PAGE_DATA) {
+    var source = document.getElementById("userHomePage").innerHTML;
+    var template = Handlebars.compile(source);
+    var html = template({
+        user: PAGE_DATA.username
+    });
+    main.innerHTML = html;
+    displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
 }
 
 function validatePlayerInput(PAGE_DATA, input) {
