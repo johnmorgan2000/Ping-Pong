@@ -40,7 +40,7 @@ function signUp(data) {
     fetch(`https://bcca-pingpong.herokuapp.com/api/register/`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json; charset=ulf-8"
+            "Content-Type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify({
             username: username,
@@ -67,7 +67,7 @@ function login(data) {
     fetch(`https://bcca-pingpong.herokuapp.com/api/login/`, {
         method: "POST",
         headers: {
-            "Content-Type": "application/json; charset=ulf-8"
+            "Content-Type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify({
             username: username,
@@ -185,7 +185,8 @@ function renderNewGame(PAGE_DATA) {
     fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {
         method: "Post",
         headers: {
-            Authorization: `Token ${PAGE_DATA.token}`
+            Authorization: `Token ${PAGE_DATA.token}`,
+            "Content-Type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify({
             player_1: PAGE_DATA.player_1.id,
@@ -194,6 +195,7 @@ function renderNewGame(PAGE_DATA) {
     })
         .then(response => response.json())
         .then(obj => {
+            PAGE_DATA.game_id = obj.id;
             newGameTemplate();
 
             PAGE_DATA.points = [];
@@ -207,13 +209,38 @@ function renderNewGame(PAGE_DATA) {
                 });
             }
 
-            // playerScore(PAGE_DATA, player_1Btns, PAGE_DATA.player_1.id);
-
-            // playerScore(PAGE_DATA, player_2Btns, PAGE_DATA.player_2.id);
-            // console.log(PAGE_DATA.points);
+            document
+                .querySelector("#scoreGameBtn")
+                .addEventListener("click", () => {
+                    submitGame(PAGE_DATA);
+                });
         });
 }
 
+function submitGame(PAGE_DATA) {
+    console.log(PAGE_DATA.game_id);
+    fetch(
+        `https://bcca-pingpong.herokuapp.com/api/score-game/${
+            PAGE_DATA.game_id
+        }/`,
+        {
+            method: "PUT",
+            headers: {
+                Authorization: `Token ${PAGE_DATA.token}`,
+                "Content-Type": "application/json; charset=UTF-8"
+            },
+            body: JSON.stringify({
+                points: PAGE_DATA.points
+            })
+        }
+    )
+        .then(response => response.json())
+        .then(obj => {
+            console.log(obj);
+        });
+}
+
+//adds or subtracts a players id to the points array
 function playerScoresHandler(btn, Id_1, Id_2) {
     if (btn.classList.contains("up")) {
         if (btn.classList.contains("player_1Btn")) {
@@ -228,7 +255,6 @@ function playerScoresHandler(btn, Id_1, Id_2) {
             removeFromPoints(Id_2);
         }
     }
-    console.log(PAGE_DATA.points);
 }
 
 // removes id from points array
@@ -249,22 +275,6 @@ function newGameTemplate() {
     });
     let block = document.querySelector("#gameArea");
     block.innerHTML = html;
-}
-
-// adds or subtracts the player id to the points array
-function playerScore(PAGE_DATA, buttons, playerId) {
-    for (const btn of buttons) {
-        btn.addEventListener("click", () => {
-            if (btn.classList.contains("up")) {
-                PAGE_DATA.points.push(playerId);
-            } else if (btn.classList.contains("down")) {
-                let index = PAGE_DATA.points.indexOf(playerId);
-                if (index > -1) {
-                    PAGE_DATA.points.splice(index, 1);
-                }
-            }
-        });
-    }
 }
 
 // Changes the displayed number
