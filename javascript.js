@@ -182,8 +182,6 @@ function renderNewGame(PAGE_DATA) {
     PAGE_DATA.player_1.id = getPlayerId(PAGE_DATA, PAGE_DATA.player_1.name);
     PAGE_DATA.player_2.id = getPlayerId(PAGE_DATA, PAGE_DATA.player_2.name);
 
-    console.log(PAGE_DATA.player_1.id);
-
     fetch("https://bcca-pingpong.herokuapp.com/api/new-game/", {
         method: "Post",
         headers: {
@@ -196,18 +194,49 @@ function renderNewGame(PAGE_DATA) {
     })
         .then(response => response.json())
         .then(obj => {
-            console.log(obj);
             newGameTemplate();
 
             PAGE_DATA.points = [];
-            let player_1Btns = document.querySelectorAll("#player1 buttons");
-            let player_2Btns = document.querySelectorAll("#player2 buttons");
+            let buttons = document.querySelectorAll("#playerScores button");
 
-            playerScore(PAGE_DATA, player_1Btns, PAGE_DATA.player_1.id);
+            for (const btn of buttons) {
+                Id_1 = PAGE_DATA.player_1.id;
+                Id_2 = PAGE_DATA.player_2.id;
+                btn.addEventListener("click", () => {
+                    playerScoresHandler(btn, Id_1, Id_2);
+                });
+            }
 
-            playerScore(PAGE_DATA, player_2Btns, PAGE_DATA.player_2.id);
-            console.log(PAGE_DATA.points);
+            // playerScore(PAGE_DATA, player_1Btns, PAGE_DATA.player_1.id);
+
+            // playerScore(PAGE_DATA, player_2Btns, PAGE_DATA.player_2.id);
+            // console.log(PAGE_DATA.points);
         });
+}
+
+function playerScoresHandler(btn, Id_1, Id_2) {
+    if (btn.classList.contains("up")) {
+        if (btn.classList.contains("player_1Btn")) {
+            PAGE_DATA.points.push(Id_1);
+        } else if (btn.classList.contains("player_2Btn")) {
+            PAGE_DATA.points.push(Id_2);
+        }
+    } else if (btn.classList.contains("down")) {
+        if (btn.classList.contains("player_1Btn")) {
+            removeFromPoints(Id_1);
+        } else if (btn.classList.contains("player_2Btn")) {
+            removeFromPoints(Id_2);
+        }
+    }
+    console.log(PAGE_DATA.points);
+}
+
+// removes id from points array
+function removeFromPoints(id) {
+    let index = PAGE_DATA.points.indexOf(id);
+    if (index > -1) {
+        PAGE_DATA.points.splice(index, 1);
+    }
 }
 
 // inserts the newGame template
