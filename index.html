@@ -1,135 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="text/html; charset=utf-8" />
+        <link
+            href="https://fonts.googleapis.com/css?family=Fredoka+One"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="bootstrap/bootstrap.css" />
+        <link rel="stylesheet" href="style.css" />
+        <title>Ping Pong</title>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="style.css">
-    <title>Ping Pong</title>
-</head>
-
-<body>
-    <div class="p-0 ">
-        <nav class="navbar col-sm-12 col-lg-10 container">
-            <h2 class="mx-auto">Ping Pong Score Keeper</h2>
-        </nav>
-        <main class="col-sm-12 col-lg-10 border container">
-
-        </main>
-    </div>
-
-
-    <script id="homePage" type="text/x-handlebars-template"> 
-        <div class="container">
-            <div class="col-sm-12 text-center">
-                <p>Description</p>
+    <body>
+        <div class="p-0 ">
+            <nav class="navbar col-sm-11 col-lg-8 container">
+                <h2 class="mx-auto">Ping Pong Score Keeper</h2>
+            </nav>
+            <div id="gap" class="col-sm-11 col-lg-8 container">
+                <div id="rightChain"></div>
+                <div id="leftChain"></div>
             </div>
-            <div class="col-sm-12">
-                <button id="signUpBtn" class="home-button mx-auto d-block">Sign Up</button>
-                <button id="loginBtn" class="home-button mx-auto d-block">Login</button>
-            </div>
-        </div>
-    </script>
-
-    <script id="registerPage" type="text/x-handlebars-template">
-        <div class="container">
-            <div>
-                <form method="POST">
-                    <fieldset id="signUpField" class="col-sm-6 col-lg-6 mx-auto p-0">
-                        <legend class="mx-auto text-center">Sign Up</legend>
-                        <div class="text-center">
-                            <label class="d-block">Username<br />
-                            <input id="username" type="text"></label>
-                            <label class="d-block">Password<br />
-                            <input id="password" type="password"></label>
-                            <label class="d-block">Password Repeat<br />
-                            <input id="passwordRepeat" type="password"></label>
-                            <button class="submitBtn" type="submit">Submit</button>
-                        </div>
-                    </fieldset>
-                </form>
+            <div id="mainContainer" class="col-sm-11 col-lg-8 container">
+                <main></main>
             </div>
         </div>
 
-    </script>
-
-    <script id="loginPage" type="text/x-handlebars-template">
-        <div class="container">
-            <div>
-                <form method="POST" >
-                    <fieldset id="loginField" class="col-sm-6 col-lg-6 mx-auto p-0">
-                        <legend class="mx-auto text-center">Login</legend>
-                        <div class="text-center">
-                            <label class="d-block">Username<br />
-                            <input id="username" type="text"></label>
-                            <label class="d-block">Password<br />
-                            <input id="password" type="password"></label>
-                            <button class="submitBtn" type="submit">Submit</button>
-                        </div>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </script>
-
-    <script id="userHomePage" type="text/x-handlebars-template">
-        <div>
-            <div id="gameArea">
-                <h1>{{user}}</h1>
-
-                <div id="inputsContainer">
-                    <label>
-                        Player 1
-                        <input type="text" id="player_1">
-                    </label>
-                    <label>
-                        Player 2
-                        <input type="text" id="player_2">
-                    </label>
+        <script id="homePage" type="text/x-handlebars-template">
+            <div class="container">
+                <div class="col-sm-12 text-center">
+                    <p class="description">Base Camp Coding Academy's Ping Pong score keeper. The days of arguing over the scores are over. With an honest referee at the controls, you can play ping pong with no more worries as your scores are tracked and displayed to you.</p>
+                    <p><b>Login or Sign Up now to get started</b> </p>
                 </div>
-                
-                <div id="selectPlayers" class="row"></div>
-                
-                <button id="newGameBtn">Start New Game</button>
+                <div class="col-sm-12">
+                    <button id="signUpBtn" class="home-button mx-auto d-block">Sign Up</button>
+                    <button id="loginBtn" class="home-button mx-auto d-block ">Login</button>
+                </div>
             </div>
-        </div>
-    </script>
+        </script>
 
-    <script id="usersInputs" type="text/x-handlebars-template">
-        <div>
-            <div id="usersContainer">
-                
+        <script id="registerPage" type="text/x-handlebars-template">
+            <div class="container">
+                <div>
+                    <form method="POST">
+                        <fieldset id="signUpField" class="col-sm-6 col-lg-6 mx-auto p-0">
+                            <legend class="mx-auto text-center">Sign Up</legend>
+                            <div class="text-center">
+                                <label class="d-block">Username<br />
+                                <input id="username" type="text"></label>
+                                <label class="d-block">Password<br />
+                                <input id="password" type="password"></label>
+                                <label class="d-block">Password Repeat<br />
+                                <input id="passwordRepeat" type="password"></label>
+                                <button class="submitBtn" type="submit">Submit</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-            
-        </div>
-    </script>
+        </script>
 
-    <script id="gameWindow" type="text/x-handlebars-template">
-        <div id="playerScores">
-            <div id="player1">
-                <p>{{player1}}</p>
-                <button onclick="increaseScore('#player_1Score')" class="up player_1Btn">UP</button>
-                <p id="player_1Score">0</p>
-                <button onclick="decreaseScore('#player_1Score')"class="down player_1Btn">DOWN</button>
+        <script id="loginPage" type="text/x-handlebars-template">
+            <div class="container">
+                <div>
+                    <form method="POST" >
+                        <fieldset id="loginField" class="col-sm-6 col-lg-6 mx-auto p-0">
+                            <legend class="mx-auto text-center">Login</legend>
+                            <div class="text-center">
+                                <label class="d-block">Username<br />
+                                <input id="username" type="text"></label>
+                                <label class="d-block">Password<br />
+                                <input id="password" type="password"></label>
+                                <button class="submitBtn" type="submit">Submit</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
             </div>
-            <div id="player2">
-                <p>{{player2}}</p>
-                <button onclick="increaseScore('#player_2Score')" class="up player_2Btn">UP</button>
-                <p id="player_2Score">0</p>
-                <button onclick="decreaseScore('#player_2Score')" class="down player_2Btn">DOWN</button>
+        </script>
+
+        <script id="userHomePage" type="text/x-handlebars-template">
+            <div>
+                <div id="gameArea"class="text-center">
+                    <h1>{{user}}</h1>
+
+                    <div id="inputsContainer" >
+                        <label>
+                            Player 1 <br />
+                            <!-- <input type="text" id="player_1"> -->
+                            <datalist id="player_1"></datalist>
+                        </label>
+                        <label>
+                            Player 2 <br />
+                            <datalist id="player_2"></datalist>
+                            <!-- <input type="text" id="player_2"> -->
+                        </label>
+                    </div>
+                    <button id="newGameBtn">Start New Game</button>
+                    <div id="selectPlayers" class="container"></div>
+
+
+                </div>
             </div>
-            <button id="scoreGameBtn">Score Game</button>
-        </div>
-    
-    </script>
+        </script>
 
-    <script src="handlebars/handlebar.js"></script>
-    <script src="javascript.js"></script>
-    <script src="bootstrap/jquery.js"></script>
-    <script src="bootstrap/popper.js"></script>
-    <script src="bootstrap/bootstrap.js"></script>
-</body>
+        <script id="usersInputs" type="text/x-handlebars-template">
+            <div>
+                <div id="usersContainer">
 
+                </div>
+
+            </div>
+        </script>
+
+        <script id="gameWindow" type="text/x-handlebars-template">
+            <div id="playerScores">
+                <div id="player1">
+                    <p>{{player1}}</p>
+                    <button onclick="increaseScore('#player_1Score')" class="up player_1Btn">UP</button>
+                    <p id="player_1Score">0</p>
+                    <button onclick="decreaseScore('#player_1Score')"class="down player_1Btn">DOWN</button>
+                </div>
+                <div id="player2">
+                    <p>{{player2}}</p>
+                    <button onclick="increaseScore('#player_2Score')" class="up player_2Btn">UP</button>
+                    <p id="player_2Score">0</p>
+                    <button onclick="decreaseScore('#player_2Score')" class="down player_2Btn">DOWN</button>
+                </div>
+                <button id="scoreGameBtn">Score Game</button>
+            </div>
+        </script>
+
+        <script src="handlebars/handlebar.js"></script>
+        <script src="javascript.js"></script>
+        <script src="bootstrap/jquery.js"></script>
+        <script src="bootstrap/popper.js"></script>
+        <script src="bootstrap/bootstrap.js"></script>
+    </body>
 </html>
