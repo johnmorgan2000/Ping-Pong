@@ -1,32 +1,131 @@
 :root {
-    --main-color: rgb(255, 187, 97);
+    --main-color: rgb(218, 143, 205);
+    --secondary-color: rgb(101, 101, 206);
+}
+* {
+    font-family: "Fredoka One", cursive;
+    font-size: 1.1rem;
+    /* letter-spacing: 2px; */
+}
+
+@media only screen and (max-width: 574px) {
+    * {
+        font-size: 1rem;
+    }
+
+    .description {
+        display: none;
+    }
+
+    nav {
+        margin-bottom: 10px;
+    }
+    nav h2 {
+        font-size: 1.1rem;
+        font-weight: bolder;
+    }
+    #gap {
+        display: none;
+    }
+}
+
+body {
+    height: 100%;
+    background-color: rgb(236, 231, 231);
+}
+#mainContainer {
+    padding: 10px;
+    background-image: url("images/wood_texture.jpeg");
+    background-repeat: repeat;
+    box-shadow: -10px 10px 5px rgb(95, 95, 95);
+}
+
+main {
+    background-color: white;
+    padding: 5px;
 }
 
 nav {
+    font-family: "Bowlby One SC", cursive;
     color: white;
     font-weight: bold;
     background-color: var(--main-color);
-    box-shadow: 0 3px 3px #c8c8c8;
+
+    box-shadow: -10px 10px 5px rgb(95, 95, 95);
+}
+
+#gap {
+    height: 15px;
+    padding: 0px;
+}
+
+#rightChain,
+#leftChain {
+    height: 20px;
+    border: 5px solid black;
+    width: 10px;
+}
+#rightChain {
+    float: right;
+}
+#leftChain {
+    float: left;
+}
+
+.description {
+    font-size: 1.05rem;
+    margin: 5px;
+    padding: 5px;
+    border: 3px solid var(--secondary-color);
+    border-radius: 8% 10%;
+}
+
+/* main button design */
+button {
+    padding: 10px;
+    border: 3px solid var(--secondary-color);
+    border-radius: 44%;
+    margin: 8px;
+    color: var(--secondary-color);
 }
 
 .home-button {
-    padding: 10px;
-    border: none;
-    border-radius: 6px;
-    margin: 8px;
+    width: 110px;
 }
 
-#signUpField {
-    border: 1px solid black;
+#signUpField,
+#loginField {
+    border: 3px solid var(--secondary-color);
+    border-radius: 30% 25% 25% 30%;
 }
 
 #signUpField legend {
+    width: 125px;
+}
+#loginField legend {
     width: 100px;
 }
 
-.submitBtn {
-    border: none;
+input {
+    border: 2px solid black;
+    padding-left: 8px;
     border-radius: 6px;
-    padding: 8px;
-    margin-bottom: 5px;
+    width: 75%;
+}
+
+#selectPlayers {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.username {
+    width: 150px;
+}
+
+.valid {
+    border: 2px solid rgb(4, 204, 4);
+}
+
+.invalid {
+    border: 2px solid red;
 }
