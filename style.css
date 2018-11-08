@@ -29,6 +29,18 @@
     }
 }
 
+@media only screen and (max-width: 767px) {
+    #player1 {
+        border-bottom: 1px solid black;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #player1 {
+        border-right: 1px solid black;
+    }
+}
+
 body {
     height: 100%;
     background-color: rgb(236, 231, 231);
@@ -89,8 +101,48 @@ button {
     color: var(--secondary-color);
 }
 
+#newGameBtn {
+    display: none;
+}
+
 .home-button {
     width: 110px;
+}
+
+button.up,
+button.down {
+    width: 100%;
+    height: 40%;
+    margin: 0px;
+    border: none;
+    border-radius: 0;
+    background-color: white;
+}
+
+button.up {
+    padding-top: 0px;
+    padding-bottom: 5%;
+}
+
+button.down {
+    padding-bottom: 0px;
+    padding-top: 5%;
+}
+
+.player-score {
+    position: absolute;
+
+    top: 50%;
+    left: 47.5%;
+}
+
+.player-score p {
+    font-size: 1.5rem;
+    margin: 0px;
+}
+
+.divider {
+    border: 1px solid black;
 }
 
 #signUpField,
@@ -109,8 +161,15 @@ button {
 input {
     border: 2px solid black;
     padding-left: 8px;
+    padding-right: 10%;
     border-radius: 6px;
     width: 75%;
+}
+
+select {
+    width: 12em;
+    margin: 0;
+    margin-left: -12.75em;
 }
 
 #selectPlayers {
@@ -122,10 +181,21 @@ input {
     width: 150px;
 }
 
-.valid {
-    border: 2px solid rgb(4, 204, 4);
+.validMessage {
+    display: inline;
+}
+.validMessage i {
+    display: none;
+    position: relative;
+    right: 10%;
 }
 
-.invalid {
-    border: 2px solid red;
+.valid ~ .validMessage .check {
+    display: inline;
+    color: rgb(135, 252, 39);
+}
+
+.invalid ~ .validMessage .x-mark {
+    display: inline;
+    color: red;
 }
