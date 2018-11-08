@@ -8,6 +8,12 @@
             href="https://fonts.googleapis.com/css?family=Fredoka+One"
             rel="stylesheet"
         />
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+            integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+            crossorigin="anonymous"
+        />
         <link rel="stylesheet" href="bootstrap/bootstrap.css" />
         <link rel="stylesheet" href="style.css" />
         <title>Ping Pong</title>
@@ -85,17 +91,26 @@
                 <div id="gameArea"class="text-center">
                     <h1>{{user}}</h1>
 
-                    <div id="inputsContainer" >
-                        <label>
+                    <div id="inputsContainer">
+                        <label >
                             Player 1 <br />
-                            <!-- <input type="text" id="player_1"> -->
-                            <datalist id="player_1"></datalist>
+                            <input type="text" id="player_1" list="usersList" class="invalid">
+                            <div class="validMessage">
+                                <i class="far fa-times-circle x-mark"></i>
+                                <i class="far fa-check-circle check"></i>
+                            </div>
                         </label>
                         <label>
                             Player 2 <br />
-                            <datalist id="player_2"></datalist>
-                            <!-- <input type="text" id="player_2"> -->
+                            <input type="text" id="player_2" list="usersList" class="invalid">
+                            <div class="validMessage">
+                                <i class="far fa-times-circle x-mark"></i>
+                                <i class="far fa-check-circle check"></i>
+                            </div>
+
                         </label>
+                        <datalist id="usersList">
+                        </datalist>
                     </div>
                     <button id="newGameBtn">Start New Game</button>
                     <div id="selectPlayers" class="container"></div>
@@ -115,21 +130,37 @@
         </script>
 
         <script id="gameWindow" type="text/x-handlebars-template">
-            <div id="playerScores">
-                <div id="player1">
-                    <p>{{player1}}</p>
-                    <button onclick="increaseScore('#player_1Score')" class="up player_1Btn">UP</button>
-                    <p id="player_1Score">0</p>
-                    <button onclick="decreaseScore('#player_1Score')"class="down player_1Btn">DOWN</button>
+            <div id="playerScores" class="row justify-content-around">
+
+                <div id="player1" class="col-sm-8 col-md-6 col-lg-6 ">
+                    <h3>{{player1}}</h3>
+                    <div class="player-score mx-auto">
+
+                        <p id="player_1Score">0</p>
+                    </div>
+
+                    <div class="buttons">
+                        <button onclick="increaseScore('#player_1Score')" class="up player_1Btn mx-auto"><i class="fas fa-chevron-up fa-3x"></i></button>
+                        <button onclick="decreaseScore('#player_1Score')"class="down player_1Btn mx-auto"><i class="fas fa-chevron-down fa-3x"></i></button>
+                    </div>
                 </div>
-                <div id="player2">
-                    <p>{{player2}}</p>
-                    <button onclick="increaseScore('#player_2Score')" class="up player_2Btn">UP</button>
-                    <p id="player_2Score">0</p>
-                    <button onclick="decreaseScore('#player_2Score')" class="down player_2Btn">DOWN</button>
+
+                <!-- <div class="divider"></div> -->
+
+                <div id="player2" class="col-sm-8 col-md-6 col-lg-6">
+                    <h3>{{player2}}</h3>
+                    <div class="player-score">
+                        <p id="player_2Score">0</p>
+                    </div>
+
+                    <div class="buttons">
+                        <button onclick="increaseScore('#player_2Score')" class="up player_2Btn mx-auto"><i class="fas fa-chevron-up fa-3x"></i></button>
+                        <button onclick="decreaseScore('#player_2Score')"class="down player_2Btn mx-auto"><i class="fas fa-chevron-down fa-3x"></i></button>
+                    </div>
                 </div>
-                <button id="scoreGameBtn">Score Game</button>
+
             </div>
+            <button id="scoreGameBtn">Score Game</button>
         </script>
 
         <script src="handlebars/handlebar.js"></script>
