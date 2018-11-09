@@ -50,9 +50,11 @@ function signUp(data) {
     })
         .then(response => response.json())
         .then(obj => {
-            data.token = obj.token;
-            data.username = username;
-            renderUserHome(main, PAGE_DATA);
+            if (obj.token) {
+                data.token = obj.token;
+                data.username = username;
+                renderUserHome(main, PAGE_DATA);
+            }
         })
         .catch(e => {
             console.log(e);
@@ -76,9 +78,11 @@ function login(data) {
     })
         .then(response => response.json())
         .then(obj => {
-            data.token = obj.token;
-            data.username = username;
-            renderUserHome(main, PAGE_DATA);
+            if (obj.token) {
+                data.token = obj.token;
+                data.username = username;
+                renderUserHome(main, PAGE_DATA);
+            }
         })
         .catch(e => {
             console.log(e);
@@ -102,15 +106,22 @@ function getUsers(token, PAGE_DATA) {
         });
 }
 
-// Displays all the users onto the page in the form of divs
-function displayUsers(PAGE_DATA, div) {
-    for (o of PAGE_DATA.users) {
-        let span = document.createElement("div");
-        let text = document.createTextNode(o.username);
-        span.appendChild(text);
-        span.classList.add("col-4");
-        div.appendChild(span);
-    }
+// puts the players in the datalist as options
+function displayUsers(PAGE_DATA) {
+    $("#player_1").select2({
+        PAGE_DATA: users
+    });
+
+    $("#player_2").select2({
+        PAGE_DATA: users
+    });
+
+    // for (o of PAGE_DATA.users) {
+    //     let option = document.createElement("option");
+    //     // let text = document.createTextNode(o.username);
+    //     option.setAttribute("value", o.username);
+    //     datalist.appendChild(option);
+    // }
 }
 
 // Creates the user home page where you can input players and get them validated then start a new game
@@ -135,6 +146,20 @@ function renderUserHome(main, PAGE_DATA) {
     });
 }
 
+function unlockNewGameBtn() {
+    let input1 = document.querySelector("#player_1");
+    let input2 = document.querySelector("#player_2");
+    let btn = document.querySelector("#newGameBtn");
+    if (
+        input1.classList.contains("valid") &&
+        input2.classList.contains("valid")
+    ) {
+        btn.style.display = "inline-block";
+    } else {
+        btn.style.display = "none";
+    }
+}
+
 // Inserts the user home page template
 function userHomeTemplate(main, PAGE_DATA) {
     var source = document.getElementById("userHomePage").innerHTML;
@@ -143,7 +168,8 @@ function userHomeTemplate(main, PAGE_DATA) {
         user: PAGE_DATA.username
     });
     main.innerHTML = html;
-    displayUsers(PAGE_DATA, document.querySelector("#selectPlayers"));
+    let datalist = document.querySelector("#usersList");
+    displayUsers(PAGE_DATA, datalist);
 }
 
 // validates the player input if the player is valid
@@ -156,6 +182,7 @@ function validatePlayerInput(PAGE_DATA, input) {
             input.classList.remove("valid");
             input.classList.add("invalid");
         }
+        unlockNewGameBtn();
     });
 }
 
@@ -233,11 +260,9 @@ function submitGame(PAGE_DATA) {
                 points: PAGE_DATA.points
             })
         }
-    )
-        .then(response => response.json())
-        .then(obj => {
-            console.log(obj);
-        });
+    ).then(response => response.json());
+
+    renderEndGame(main, PAGE_DATA);
 }
 
 //adds or subtracts a players id to the points array
@@ -255,6 +280,22 @@ function playerScoresHandler(btn, Id_1, Id_2) {
             removeFromPoints(Id_2);
         }
     }
+}
+
+function renderEndGame() {
+    var source = document.getElementById("endScreen").innerHTML;
+    main.innerHTML = source;
+
+    let newGame = document.querySelector("#anotherGameBtn");
+    let quit = document.querySelector("#quitBtn");
+
+    newGame.addEventListener("click", () => {
+        renderUserHome(main, PAGE_DATA);
+        console.log(PAGE_DATA);
+    });
+    quit.addEventListener("click", () => {
+        window.location.reload();
+    });
 }
 
 // removes id from points array
