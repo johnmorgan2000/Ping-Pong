@@ -9,10 +9,18 @@
             rel="stylesheet"
         />
         <link
+            href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah"
+            rel="stylesheet"
+        />
+        <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
             integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
             crossorigin="anonymous"
+        />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"
+            rel="stylesheet"
         />
         <link rel="stylesheet" href="bootstrap/bootstrap.css" />
         <link rel="stylesheet" href="style.css" />
@@ -95,6 +103,7 @@
                         <label >
                             Player 1 <br />
                             <input type="text" id="player_1" list="usersList" class="invalid">
+                            <!-- <select class="invalid" id="player_1"></select> -->
                             <div class="validMessage">
                                 <i class="far fa-times-circle x-mark"></i>
                                 <i class="far fa-check-circle check"></i>
@@ -103,6 +112,7 @@
                         <label>
                             Player 2 <br />
                             <input type="text" id="player_2" list="usersList" class="invalid">
+                            <!-- <select class="invalid" id="player_2"></select> -->
                             <div class="validMessage">
                                 <i class="far fa-times-circle x-mark"></i>
                                 <i class="far fa-check-circle check"></i>
@@ -161,6 +171,13 @@
 
             </div>
             <button id="scoreGameBtn">Score Game</button>
+        </script>
+
+        <script id="endScreen" type="text/x-handlebars-template">
+            <div class="text-center">
+                <h3>Score Submitted</h3>
+                <button id="anotherGameBtn">New Game</button> <button id="quitBtn">Quit</button>
+            </div>
         </script>
 
         <script src="handlebars/handlebar.js"></script>
