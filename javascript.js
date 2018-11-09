@@ -107,21 +107,21 @@ function getUsers(token, PAGE_DATA) {
 }
 
 // puts the players in the datalist as options
-function displayUsers(PAGE_DATA) {
-    $("#player_1").select2({
-        PAGE_DATA: users
-    });
+function displayUsers(PAGE_DATA, datalist) {
+    // $("#player_1").select2({
+    //     PAGE_DATA: users
+    // });
 
-    $("#player_2").select2({
-        PAGE_DATA: users
-    });
+    // $("#player_2").select2({
+    //     PAGE_DATA: users
+    // });
 
-    // for (o of PAGE_DATA.users) {
-    //     let option = document.createElement("option");
-    //     // let text = document.createTextNode(o.username);
-    //     option.setAttribute("value", o.username);
-    //     datalist.appendChild(option);
-    // }
+    for (o of PAGE_DATA.users) {
+        let option = document.createElement("option");
+        // let text = document.createTextNode(o.username);
+        option.setAttribute("value", o.username);
+        datalist.appendChild(option);
+    }
 }
 
 // Creates the user home page where you can input players and get them validated then start a new game
